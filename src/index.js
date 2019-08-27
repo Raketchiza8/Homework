@@ -67,7 +67,7 @@ let showTypeOf = function(data) {
 let getStatusIncome = function() {
     if(budgetDay > 0) {
 
-        if (budgetDay < 300) {
+        if (budgetDay <= 300) {
             return 'Низкий уровень дохода';
         } else if (budgetDay <= 800) {
             return 'Средний уровень дохода';
@@ -79,6 +79,6 @@ let getStatusIncome = function() {
         return 'Что то пошло не так';
     }
 }
-getStatusIncome();
-
+// getStatusIncome();
+console.log(getStatusIncome());
 
