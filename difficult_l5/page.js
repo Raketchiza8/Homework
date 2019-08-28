@@ -1,18 +1,18 @@
-// // 1)
-// let arr = [];
+// 1)
+let arr = [];
 
-// let getRandom = function() {
-//     return Math.floor(Math.random() * 10000000);
-// };
+let getRandom = function() {
+    return Math.floor(Math.random() * 10000000);
+};
 
-// for (let i = 0; i < 7; i++) {
-//     arr.push(String(getRandom()));
-// }
-// console.log(arr);
+for (let i = 0; i < 7; i++) {
+    arr.push(String(getRandom()));
+}
+console.log(arr);
 
-// arr.forEach((num) => {
-//     num[0] === '2' || num[0] === '4' ? console.log(num) : '';
-// });
+arr.forEach((num) => {
+    num[0] === '2' || num[0] === '4' ? console.log(num) : '';
+});
 
 // 2)
 
