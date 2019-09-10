@@ -17,7 +17,8 @@ let salaryAmount         = document.querySelector('.salary-amount'),
     resPeriod            = document.querySelector('.income_period-value'),
     resTargetMonth       = document.querySelector('.target_month-value'),
     start                = document.querySelector('#start'),
-    incomeItems          = document.querySelectorAll ('.income-items');  
+    incomeItems          = document.querySelectorAll ('.income-items'),
+    allInputs            = document.querySelectorAll('input');  
     
 let appData = {
     budget: 0,
@@ -69,8 +70,6 @@ let appData = {
     },
     // блокирование инпутов
     disabledInputs: function() {
-        let allInputs = document.querySelectorAll('input');
-
         allInputs.forEach((input) => {
             if(input.type === 'text') {
                 input.disabled = true;
@@ -98,7 +97,13 @@ let appData = {
     },
     //добавление блока обязательных расходов
     addExpensesBlock: function() {
-        let cloneExpensesItem = expensesItems[0].cloneNode(true);
+        let cloneExpensesItem = expensesItems[0].cloneNode(true),
+            childrenIncome  = cloneExpensesItem.querySelectorAll('input');
+        childrenIncome.forEach((child) => {
+            child.value = '';
+        });
+        
+
         expensesItems[0].parentNode.insertBefore(cloneExpensesItem, expensesPlus);
 
         expensesItems = document.querySelectorAll('.expenses-items');
@@ -108,8 +113,12 @@ let appData = {
     },
     //добавление блока дополнительных доходов
     addIncomeBlock: function() {
-        let cloneincomeItems = incomeItems[0].cloneNode(true);
-        incomeItems[0].parentNode.insertBefore(cloneincomeItems, incomePlus);
+        let cloneIncomeItems = incomeItems[0].cloneNode(true),
+            childrenIncome = cloneIncomeItems.querySelectorAll('input');
+        childrenIncome.forEach((child) => {
+            child.value = '';
+        });
+        incomeItems[0].parentNode.insertBefore(cloneIncomeItems, incomePlus);
 
         incomeItems = document.querySelectorAll('.income-items');
         if(incomeItems.length === 3) {
@@ -206,7 +215,17 @@ let appData = {
     },
     addPeriodTitle: function() {
         periodTitle.textContent = periodSelect.value;
-    }
+    },
+    // validateTitle: function() {
+    //     allInputs.forEach((input) => {
+    //         if(input.getAttribute('placeholder') === 'Наименование') {
+    //             input.addEventListener('input', () => {
+                  
+    //             });
+    //         }
+    //     })
+    // }
+
 };
 start.addEventListener('click', appData.start);
 expensesPlus.addEventListener('click', appData.addExpensesBlock);
