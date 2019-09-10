@@ -42,6 +42,7 @@ let appData = {
             start.disabled = 'false';
         }
         start.textContent = 'Сбросить';
+        start.addEventListener('click', appData.reset);
         appData.budget = +salaryAmount.value;
 
         appData.getExpenses();
@@ -67,6 +68,13 @@ let appData = {
         resTargetMonth.value = appData.getTargetMonth();
         resPeriod.value = appData.calcPeriod();
 
+    },
+    reset: function() {
+        console.log('working');
+        allInputs.forEach((input) => {
+            input.value = '';
+            input.disabled = false;
+        })
     },
     // блокирование инпутов
     disabledInputs: function() {
@@ -171,7 +179,6 @@ let appData = {
         this.budgetDay   = Math.floor(this.budgetMonth / 31);
     },
     getTargetMonth: function() {
-        console.log('targetAmount', targetAmount);
         return Math.ceil( targetAmount.value / this.budgetMonth);
     },
     getStatusIncome:function() {
