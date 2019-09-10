@@ -17,8 +17,9 @@ let salaryAmount         = document.querySelector('.salary-amount'),
     resPeriod            = document.querySelector('.income_period-value'),
     resTargetMonth       = document.querySelector('.target_month-value'),
     start                = document.querySelector('#start'),
-    incomeItems          = document.querySelectorAll ('.income-items'),
-    allInputs            = document.querySelectorAll('input');  
+    cancel               = document.querySelector('#cancel'),
+    incomeItems          = document.querySelectorAll ('.income-items');
+     
     
 let appData = {
     budget: 0,
@@ -37,12 +38,12 @@ let appData = {
        
         if(salaryAmount.value === '') {
             alert('Ошибка поля "Месячный доход" должно быть заполнено');
-            start.disabled = 'true';
         } else {
-            start.disabled = 'false';
+            start.style.display = 'none';
+            appData.disabledInputs(); 
+            cancel.style.display = 'block';
         }
-        start.textContent = 'Сбросить';
-        start.addEventListener('click', appData.reset);
+       
         appData.budget = +salaryAmount.value;
 
         appData.getExpenses();
@@ -52,7 +53,7 @@ let appData = {
         appData.getAddExpenses();
         appData.getAddIncome();
         appData.getBudget();
-        appData.disabledInputs();  
+         
 
         appData.showResult();
         
@@ -69,15 +70,24 @@ let appData = {
         resPeriod.value = appData.calcPeriod();
 
     },
+    //сброс настроек
     reset: function() {
-        console.log('working');
+    
+        let allInputs = document.querySelectorAll('input'); 
         allInputs.forEach((input) => {
-            input.value = '';
-            input.disabled = false;
-        })
+            if(input.classList.contains('period-select')){
+                input.value = 1;
+                appData.addPeriodTitle();
+            } else {
+                input.value = '';
+                input.disabled = false;
+            }
+            
+        });
     },
     // блокирование инпутов
     disabledInputs: function() {
+        let allInputs = document.querySelectorAll('input'); 
         allInputs.forEach((input) => {
             if(input.type === 'text') {
                 input.disabled = true;
@@ -205,17 +215,17 @@ let appData = {
         }
     },
     getInfoDeposit: function() {
-        if(this.deposit) {
+        // if(this.deposit) {
 
-            do {
-                this.percentDeposit = prompt('Какой годовой процент?','10');
-            } while (isNaN(this.percentDeposit) || this.percentDeposit === '' || this.percentDeposit === null)
+        //     do {
+        //         this.percentDeposit = prompt('Какой годовой процент?','10');
+        //     } while (isNaN(this.percentDeposit) || this.percentDeposit === '' || this.percentDeposit === null)
 
 
-            do {
-                this.moneyDeposit = prompt('Какая сумма заложена?','10000');
-            } while (isNaN(this.moneyDeposit) || this.moneyDeposit === '' || this.moneyDeposit === null)
-        }
+        //     do {
+        //         this.moneyDeposit = prompt('Какая сумма заложена?','10000');
+        //     } while (isNaN(this.moneyDeposit) || this.moneyDeposit === '' || this.moneyDeposit === null)
+        // }
     },
     calcPeriod: function() {
         return this.budgetMonth * periodSelect.value;
@@ -235,6 +245,7 @@ let appData = {
 
 };
 start.addEventListener('click', appData.start);
+cancel.addEventListener('click', appData.reset);
 expensesPlus.addEventListener('click', appData.addExpensesBlock);
 incomePlus.addEventListener('click', appData.addIncomeBlock);
 periodSelect.addEventListener('change', appData.addPeriodTitle);
