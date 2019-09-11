@@ -251,25 +251,17 @@ AppData.prototype.reset = function() {
 
 const appData = new AppData();
 
-const DomElement = function(selector, height, width, bg, fontSize) {
-    this.selector = selector;
-    this.height = height;
-    this.width = width;
-    this.bg = bg;
-    this.fontSize = fontSize;
+AppData.prototype.eventsListener = function() {
+    start.addEventListener('click', appData.start.bind(appData));
+    cancel.addEventListener('click', appData.reset.bind(appData));
+    btnExpPlus.addEventListener('click', appData.addExpensesBlock);
+    btnInPlus.addEventListener('click', appData.addIncomeBlock);
+    periodSelect.addEventListener('change', appData.addPeriodTitle);
 };
-
-DomElement.prototype.createElement = function() {
-
-;}
+appData.eventsListener();
 
 
 
-start.addEventListener('click', appData.start.bind(appData));
-cancel.addEventListener('click', appData.reset.bind(appData));
-btnExpPlus.addEventListener('click', appData.addExpensesBlock);
-btnInPlus.addEventListener('click', appData.addIncomeBlock);
-periodSelect.addEventListener('change', appData.addPeriodTitle);
 
 
 
