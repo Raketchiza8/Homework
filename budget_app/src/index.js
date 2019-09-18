@@ -71,6 +71,8 @@ AppData.prototype.start = function() {
     
      
     this.showResult();
+
+    this.disabled();
 };
 AppData.prototype.disabled = function() {
     const _this = this;
