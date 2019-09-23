@@ -1,49 +1,49 @@
 window.addEventListener('DOMContentLoaded', function() {
     'use strict';
     //Timer
-    // const countTimer = (deadLine) => {
-    //     const  timerHours   = document.querySelector('#timer-hours'),
-    //             timerMinutes = document.querySelector('#timer-minutes'),
-    //             timerSeconds = document.querySelector('#timer-seconds');
+    const countTimer = (deadLine) => {
+        const  timerHours   = document.querySelector('#timer-hours'),
+                timerMinutes = document.querySelector('#timer-minutes'),
+                timerSeconds = document.querySelector('#timer-seconds');
         
-    //     const getTimeRemaining = () => {
-    //         const dateStop = new Date(deadLine).getTime(),
-    //                 dateNow = new Date().getTime(),
-    //               timeRemaining = (dateStop - dateNow) / 1000,
-    //               seconds = Math.floor(timeRemaining % 60),
-    //               minutes = Math.floor((timeRemaining / 60) % 60),
-    //               hours = Math.floor(timeRemaining / 60 / 60);
-    //         return {timeRemaining, hours, minutes, seconds};
-    //     }
+        const getTimeRemaining = () => {
+            const dateStop = new Date(deadLine).getTime(),
+                    dateNow = new Date().getTime(),
+                  timeRemaining = (dateStop - dateNow) / 1000,
+                  seconds = Math.floor(timeRemaining % 60),
+                  minutes = Math.floor((timeRemaining / 60) % 60),
+                  hours = Math.floor(timeRemaining / 60 / 60);
+            return {timeRemaining, hours, minutes, seconds};
+        };
 
-    //     function updateClock() {
-    //         let timer = getTimeRemaining();
+        function updateClock() {
+            let timer = getTimeRemaining();
             
-    //         const addZero = (num) => {
-    //             if(num < 10) {
-    //                 num = '0' + num;
-    //             } 
-    //             return num;
-    //         };
+            const addZero = (num) => {
+                if(num < 10) {
+                    num = '0' + num;
+                } 
+                return num;
+            };
 
             
-    //         timerHours.textContent   = addZero(timer.hours);
-    //         timerMinutes.textContent = addZero(timer.minutes);
-    //         timerSeconds.textContent = addZero(timer.seconds);
+            timerHours.textContent   = addZero(timer.hours);
+            timerMinutes.textContent = addZero(timer.minutes);
+            timerSeconds.textContent = addZero(timer.seconds);
 
-    //         if(timer.timeRemaining > 0) {
-    //             setInterval(updateClock, 1000);
-    //         } else {
-    //             timerHours.textContent   = '00';
-    //             timerMinutes.textContent = '00';
-    //             timerSeconds.textContent = '00'; 
-    //         }
+            if(timer.timeRemaining > 0) {
+                setInterval(updateClock, 1000);
+            } else {
+                timerHours.textContent   = '00';
+                timerMinutes.textContent = '00';
+                timerSeconds.textContent = '00'; 
+            }
             
-    //     }
-    //     updateClock();
-    // }
+        }
+        updateClock();
+    };
 
-    //countTimer('20 september 2019');
+    countTimer('20 november 2019');
 
     //menu
     const toggleMenu = () => {
