@@ -64,8 +64,8 @@ AppData.prototype.start = function() {
     this.getIncome();
     this.getExpensesMonth();
     this.getIncomeMonth();
-    this.getAddExpenses();
-    this.getAddIncome();
+    this.getAddData(additionalExpenses, this.addExpenses);
+    this.getAddData(additionalincomeItems, this.addIncome);
     this.getInfoDeposit();
     this.getBudget();
     
@@ -102,22 +102,8 @@ AppData.prototype.showResult = function() {
     });
 
 };
-//добавление блока обязательных расходов
-AppData.prototype.addExpensesBlock = function() {
-    let cloneExpensesItem = expensesItems[0].cloneNode(true),
-        childrenIncome  = cloneExpensesItem.querySelectorAll('input');
-    childrenIncome.forEach((child) => {
-        child.value = '';
-    });
-    
+//добавление блока расходов/доходов
 
-    expensesItems[0].parentNode.insertBefore(cloneExpensesItem, btnExpPlus);
-
-    expensesItems = document.querySelectorAll('.expenses-items');
-    if(expensesItems.length === 3) {
-        btnExpPlus.style.display = 'none';
-    }
-};
 AppData.prototype.addBlock = function(items, btn, classItem) {
     console.log(items.length);
     let cloneItem = items[0].cloneNode(true),
@@ -145,20 +131,7 @@ AppData.prototype.getExpenses = function() {
          }
      });
  };
- //добавление блока дополнительных доходов
-AppData.prototype.addIncomeBlock = function() {
-    let cloneIncomeItems = incomeItems[0].cloneNode(true),
-        childrenIncome = cloneIncomeItems.querySelectorAll('input');
-    childrenIncome.forEach((child) => {
-        child.value = '';
-    });
-    incomeItems[0].parentNode.insertBefore(cloneIncomeItems, btnInPlus);
 
-    incomeItems = document.querySelectorAll('.income-items');
-    if(incomeItems.length === 3) {
-        btnInPlus.style.display = 'none';
-    }
-};
 // перебор обязательных доходов и добавление их в объект
 AppData.prototype.getIncome = function() {
     const _this = this; 
@@ -171,27 +144,30 @@ AppData.prototype.getIncome = function() {
     });
     
 }; 
-// получение возможных рассходов и запись в объект
-AppData.prototype.getAddExpenses = function() {
+// получение возможных рассходов/доходов и запись в объект
+
+
+AppData.prototype.getAddData = function(data, variable) {
+    console.log(data, typeof data, data.length);
     const _this = this;  
-    let addExpenses = additionalExpenses.value.split(',');
-    addExpenses.forEach((item) => {
-        item = item.trim();
-        if(item !== ''){
-            _this.addExpenses.push(item);
-        }
-    });
+    if(data.length) {
+        data.forEach((item) => {
+            let itemValue = item.value.trim();
+            if(item.value !== ''){
+                variable.push(itemValue);
+            }
+        });
+    } else {
+        let addData = data.value.split(',');
+        addData.forEach((item) => {
+            item = item.trim();
+            if(item !== ''){
+                variable.push(item);
+            }
+        });
+    }
 };
-// перебор возможных доходов и добавление их в объект
-AppData.prototype.getAddIncome = function() {
-    const _this = this;  
-    additionalincomeItems.forEach((item) => {
-        let itemValue = item.value.trim();
-        if(item.value !== ''){
-            _this.addIncome.push(itemValue);
-        }
-    });
-};
+
 AppData.prototype.getExpensesMonth = function() {
    
     let sum = 0;
