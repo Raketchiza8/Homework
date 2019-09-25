@@ -1,63 +1,65 @@
 window.addEventListener('DOMContentLoaded', function() {
     'use strict';
     //Timer
-    const countTimer = (deadLine) => {
-        const  timerHours   = document.querySelector('#timer-hours'),
-                timerMinutes = document.querySelector('#timer-minutes'),
-                timerSeconds = document.querySelector('#timer-seconds');
+    // const countTimer = (deadLine) => {
+    //     const  timerHours   = document.querySelector('#timer-hours'),
+    //             timerMinutes = document.querySelector('#timer-minutes'),
+    //             timerSeconds = document.querySelector('#timer-seconds');
         
-        const getTimeRemaining = () => {
-            const dateStop = new Date(deadLine).getTime(),
-                    dateNow = new Date().getTime(),
-                  timeRemaining = (dateStop - dateNow) / 1000,
-                  seconds = Math.floor(timeRemaining % 60),
-                  minutes = Math.floor((timeRemaining / 60) % 60),
-                  hours = Math.floor(timeRemaining / 60 / 60);
-            return {timeRemaining, hours, minutes, seconds};
-        };
+    //     const getTimeRemaining = () => {
+    //         const dateStop = new Date(deadLine).getTime(),
+    //                 dateNow = new Date().getTime(),
+    //               timeRemaining = (dateStop - dateNow) / 1000,
+    //               seconds = Math.floor(timeRemaining % 60),
+    //               minutes = Math.floor((timeRemaining / 60) % 60),
+    //               hours = Math.floor(timeRemaining / 60 / 60);
+    //         return {timeRemaining, hours, minutes, seconds};
+    //     };
 
-        function updateClock() {
-            let timer = getTimeRemaining();
+    //     function updateClock() {
+    //         let timer = getTimeRemaining();
             
-            const addZero = (num) => {
-                if(num < 10) {
-                    num = '0' + num;
-                } 
-                return num;
-            };
+    //         const addZero = (num) => {
+    //             if(num < 10) {
+    //                 num = '0' + num;
+    //             } 
+    //             return num;
+    //         };
 
             
-            timerHours.textContent   = addZero(timer.hours);
-            timerMinutes.textContent = addZero(timer.minutes);
-            timerSeconds.textContent = addZero(timer.seconds);
+    //         timerHours.textContent   = addZero(timer.hours);
+    //         timerMinutes.textContent = addZero(timer.minutes);
+    //         timerSeconds.textContent = addZero(timer.seconds);
 
-            if(timer.timeRemaining > 0) {
-                setInterval(updateClock, 1000);
-            } else {
-                timerHours.textContent   = '00';
-                timerMinutes.textContent = '00';
-                timerSeconds.textContent = '00'; 
-            }
+    //         if(timer.timeRemaining > 0) {
+    //             setInterval(updateClock, 1000);
+    //         } else {
+    //             timerHours.textContent   = '00';
+    //             timerMinutes.textContent = '00';
+    //             timerSeconds.textContent = '00'; 
+    //         }
             
-        }
-        updateClock();
-    };
+    //     }
+    //     updateClock();
+    // };
 
-    countTimer('20 november 2019');
+    // countTimer('20 november 2019');
 
     //menu
     const toggleMenu = () => {
         const btnMenu = document.querySelector('.menu'),
               menu = document.querySelector('menu'),
               closeBtn = document.querySelector('.close-btn'),
-              menuItems = menu.querySelectorAll('ul>li');
+              menuItems = menu.querySelectorAll('ul>li'),
+              btnScroll = document.querySelector('a[href="#service-block"]');
+              
 
         const openMenu = () => {
             btnMenu.removeEventListener('click', openMenu);
             btnMenu.addEventListener('click', closeMenu);
             let animateInterval,
             count = -100;
-            function animate({timing, draw, duration}) {
+            function animate() {
                 animateInterval = requestAnimationFrame(animate);
                 count += 2;
                 if(count <= 50) {
@@ -73,7 +75,7 @@ window.addEventListener('DOMContentLoaded', function() {
             btnMenu.addEventListener('click', openMenu);
             let animateInterval,
             count = 50;
-            function animate({timing, draw, duration}) {
+            function animate() {
                 animateInterval = requestAnimationFrame(animate);
                 count -= 2;
                 if(count >= -100) {
@@ -85,12 +87,50 @@ window.addEventListener('DOMContentLoaded', function() {
             animateInterval = requestAnimationFrame(animate);
         };
 
-        
-        
+        const scroll = function(event) {
+            event.preventDefault(); 
+            let coordY = document.querySelector(this.firstChild.getAttribute('href'))
+                                 .getBoundingClientRect()
+                                 .top + window.pageYOffset; 
+            console.log(coordY);
+            let animateInterval,
+                count = 0;
+            function animateScroll() {
+                animateInterval = requestAnimationFrame(animateScroll);
+                count += 10;
+                if(count <= coordY) {
+                    document.documentElement.scrollTop = count;
+                } else {
+                    cancelAnimationFrame(animateInterval);
+                }
+            }
+            animateInterval = requestAnimationFrame(animateScroll);
+        };
+
+        const scrollNextSlide = function(event) {
+            event.preventDefault();
+            let animateInterval,
+            count = 0;
+            function animate() {
+                animateInterval = requestAnimationFrame(animate);
+                count += 10;
+                if(count <= 830) {
+                    document.documentElement.scrollTop = count;
+                } else {
+                    cancelAnimationFrame(animateInterval);
+                }
+            }
+            animateInterval = requestAnimationFrame(animate);
+
+        };
 
         btnMenu.addEventListener('click', openMenu);
         closeBtn.addEventListener('click', closeMenu);
-        menuItems.forEach((elem) => elem.addEventListener('click', closeMenu));
+        btnScroll.addEventListener('click', scrollNextSlide);
+        menuItems.forEach((elem) =>{
+            elem.addEventListener('click', closeMenu);
+            elem.addEventListener('click', scroll);
+        });
       
 
     };
