@@ -118,6 +118,22 @@ AppData.prototype.addExpensesBlock = function() {
         btnExpPlus.style.display = 'none';
     }
 };
+AppData.prototype.addBlock = function(items, btn, classItem) {
+    console.log(items.length);
+    let cloneItem = items[0].cloneNode(true),
+        childrenItem  = cloneItem.querySelectorAll('input');
+        childrenItem.forEach((child) => {
+        child.value = '';
+    });
+    
+    items[0].parentNode.insertBefore(cloneItem, btn);
+    
+    
+    items = document.querySelectorAll(`.${classItem}-items`);
+    if(items.length === 3) {
+        btn.style.display = 'none';
+    }
+};
 // перебор обязательных расходов и добавление их в объект
 AppData.prototype.getExpenses = function() {
      const _this = this;  
@@ -186,7 +202,8 @@ AppData.prototype.getExpensesMonth = function() {
 };
 AppData.prototype.getBudget = function() {
    
-    this.budgetMonth = Math.floor(this.budget + this.incomeMonth - this.expensesMonth + (this.moneyDeposit * this.percentDeposit) / 12);
+    this.budgetMonth = Math.floor(this.budget + this.incomeMonth - this.expensesMonth + 
+                       (this.moneyDeposit * this.percentDeposit) / 12);
     this.budgetDay   = Math.floor(this.budgetMonth / 31);
 };
 AppData.prototype.getTargetMonth = function() {
@@ -287,8 +304,13 @@ const appData = new AppData();
 AppData.prototype.eventsListener = function() {
     start.addEventListener('click', appData.start.bind(appData));
     cancel.addEventListener('click', appData.reset.bind(appData));
-    btnExpPlus.addEventListener('click', appData.addExpensesBlock);
-    btnInPlus.addEventListener('click', appData.addIncomeBlock);
+    btnExpPlus.addEventListener('click', function() {
+        appData.addBlock(expensesItems, btnExpPlus, 'expenses' );
+    });
+    btnInPlus.addEventListener('click', function() {
+        appData.addBlock(incomeItems, btnInPlus, 'income');
+    });
+   
     periodSelect.addEventListener('change', appData.addPeriodTitle);
     depositCheck.addEventListener('change', appData.checkDeposit);
 };
